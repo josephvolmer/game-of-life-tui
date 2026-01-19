@@ -26,7 +26,7 @@ pip install game-of-life-tui
 After installation, run:
 
 ```bash
-game-of-life
+game-of-life-tui
 ```
 
 ### First Steps
@@ -77,7 +77,7 @@ The grid wraps around edges (toroidal topology) for seamless gameplay.
 
 ### Spawn a Glider
 ```
-1. Run game-of-life
+1. Run game-of-life-tui
 2. Press 1 to place a glider
 3. Press P to watch it travel
 ```

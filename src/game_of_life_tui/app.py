@@ -17,7 +17,7 @@ class GridWidget(Static):
     """Widget to display the Game of Life grid."""
 
     cursor_x = reactive(25)
-    cursor_y = reactive(25)
+    cursor_y = reactive(10)
 
     def __init__(self, grid: GameGrid):
         """Initialize grid widget.
@@ -133,7 +133,8 @@ class GameOfLifeApp(App):
     def __init__(self):
         """Initialize the application."""
         super().__init__()
-        self.grid = GameGrid(50, 50)
+        self.title = "game-of-life-tui"
+        self.grid = GameGrid(50, 20)  # 50 wide, 20 tall for 80x24 terminal
         self.update_timer = None
         self.save_counter = 0
 

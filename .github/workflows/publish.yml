@@ -74,9 +74,9 @@ jobs:
         print(f'Testing version: {__version__}')
 
         # Quick sanity tests
-        grid = GameGrid(50, 50)
+        grid = GameGrid(50, 20)
         assert grid.population == 0
-        grid.toggle_cell(25, 25)
+        grid.toggle_cell(25, 10)
         assert grid.population == 1
 
         assert len(PATTERNS) >= 5
@@ -159,7 +159,7 @@ jobs:
     - name: Verify installation
       run: |
         python -c "from game_of_life_tui import __version__; print(f'Installed version: {__version__}')"
-        which game-of-life || echo "Command installed"
+        which game-of-life-tui || echo "Command installed"
 
     - name: Success message
       run: |

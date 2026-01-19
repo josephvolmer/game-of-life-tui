@@ -59,7 +59,7 @@ pip install -e .
 After installation, launch the game:
 
 ```bash
-game-of-life
+game-of-life-tui
 ```
 
 Or alternatively:
@@ -152,7 +152,7 @@ The grid is **toroidal** (wraps around edges), creating a seamless, infinite-lik
 
 ## Technical Details
 
-- **Grid Size**: 50×50 cells
+- **Grid Size**: 50×20 cells (optimized for 80×24 terminal)
 - **Topology**: Toroidal (wrapping edges)
 - **Update Rate**: 100-1000ms per generation (adjustable)
 - **Architecture**: Pure Python with Textual TUI framework

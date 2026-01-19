@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "game-of-life-tui"
-version = "1.1.1"
+version = "1.2.0"
 description = "Conway's Game of Life in your terminal with an interactive TUI"
 readme = "README_PYPI.md"
 requires-python = ">=3.8"
@@ -31,6 +31,7 @@ classifiers = [
 
 dependencies = [
     "textual>=0.47.0",
+    "rich>=13.0.0,<14.0.0",
 ]
 
 [project.urls]
@@ -39,7 +40,7 @@ Repository = "https://github.com/josephvolmer/game-of-life-tui"
 Issues = "https://github.com/josephvolmer/game-of-life-tui/issues"
 
 [project.scripts]
-game-of-life = "game_of_life_tui.app:main"
+game-of-life-tui = "game_of_life_tui.app:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

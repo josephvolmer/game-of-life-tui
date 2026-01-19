@@ -42,7 +42,7 @@ jobs:
 
     - name: Verify command is installed
       run: |
-        which game-of-life || where game-of-life
+        which game-of-life-tui || where game-of-life-tui
       shell: bash
       continue-on-error: true
 
@@ -53,18 +53,18 @@ jobs:
         from game_of_life_tui.patterns import place_pattern, PATTERNS
 
         # Test grid creation
-        grid = GameGrid(50, 50)
+        grid = GameGrid(50, 20)
         assert grid.width == 50
-        assert grid.height == 50
+        assert grid.height == 20
         assert grid.population == 0
 
         # Test cell toggling
-        grid.toggle_cell(25, 25)
-        assert grid.is_alive(25, 25)
+        grid.toggle_cell(25, 10)
+        assert grid.is_alive(25, 10)
         assert grid.population == 1
 
         # Test neighbor counting
-        neighbors = grid.count_neighbors(25, 25)
+        neighbors = grid.count_neighbors(25, 10)
         assert neighbors == 0
 
         # Test step
