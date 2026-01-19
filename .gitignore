@@ -148,3 +148,6 @@ Thumbs.db
 
 # Game of Life saved states
 game_of_life_*.json
+
+# Git credentials (contains PAT token)
+.git/credentials

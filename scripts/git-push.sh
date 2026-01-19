@@ -1,0 +1,49 @@
+#!/bin/bash
+# Helper script to push using PAT token
+# Usage: ./git-push.sh [branch]
+# Default branch: main
+
+BRANCH="${1:-main}"
+REPO_URL="github.com/josephvolmer/game-of-life-tui.git"
+
+# Navigate to repo root
+cd "$(dirname "$0")/.."
+
+# Read token from .git/credentials
+TOKEN=$(cat .git/credentials 2>/dev/null | grep -o 'github_pat_[^@]*\|ghp_[^@]*')
+
+if [ -z "$TOKEN" ]; then
+    echo "❌ Error: No GitHub PAT token found in .git/credentials"
+    echo ""
+    echo "Please run: ./scripts/setup-git-token.sh YOUR_TOKEN"
+    echo ""
+    echo "To get a token:"
+    echo "1. Go to: https://github.com/settings/tokens"
+    echo "2. Generate a new token with 'repo' scope"
+    echo "3. Run: ./scripts/setup-git-token.sh ghp_YOUR_TOKEN"
+    exit 1
+fi
+
+echo "🔐 Configuring git remote with PAT..."
+
+# Temporarily set remote URL with token
+git remote set-url origin "https://${TOKEN}@${REPO_URL}"
+
+echo "⬆️  Pushing to origin/${BRANCH}..."
+
+# Push
+git push -u origin "$BRANCH"
+EXIT_CODE=$?
+
+# Clean up: restore remote URL without token
+echo "🧹 Cleaning up remote URL..."
+git remote set-url origin "https://${REPO_URL}"
+
+if [ $EXIT_CODE -eq 0 ]; then
+    echo "✅ Successfully pushed to ${BRANCH}!"
+    echo "🚀 Check build status: https://github.com/josephvolmer/game-of-life-tui/actions"
+else
+    echo "❌ Push failed with exit code ${EXIT_CODE}"
+fi
+
+exit $EXIT_CODE
