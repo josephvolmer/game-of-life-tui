@@ -80,7 +80,7 @@ jobs:
         assert grid.population == 0
         assert grid.generation == 0
 
-        print('✓ All game logic tests passed!')
+        print('All game logic tests passed!')
         "
 
     - name: Build distribution
@@ -123,9 +123,9 @@ jobs:
         try:
             from game_of_life_tui import GameOfLifeApp, GameGrid, main
             from game_of_life_tui.patterns import PATTERNS, place_pattern
-            print('✓ All imports successful')
+            print('All imports successful')
         except ImportError as e:
-            print(f'✗ Import error: {e}')
+            print(f'Import error: {e}')
             sys.exit(1)
         "
 
@@ -143,8 +143,8 @@ jobs:
         echo "Lint job: ${{ needs.lint.result }}"
 
         if [ "${{ needs.test.result }}" != "success" ] || [ "${{ needs.lint.result }}" != "success" ]; then
-          echo "❌ Some tests failed"
+          echo "Some tests failed"
           exit 1
         fi
 
-        echo "✅ All tests passed!"
+        echo "All tests passed!"
