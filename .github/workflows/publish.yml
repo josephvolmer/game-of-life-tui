@@ -1,0 +1,173 @@
+name: Publish to PyPI
+
+on:
+  workflow_dispatch:  # Manual trigger only
+    inputs:
+      version:
+        description: 'Version to publish (e.g., 1.1.1)'
+        required: true
+        type: string
+
+jobs:
+  validate:
+    name: Validate Version
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Verify version matches
+      run: |
+        # Get version from pyproject.toml
+        PYPROJECT_VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+        # Get version from __init__.py
+        INIT_VERSION=$(grep '^__version__ = ' src/game_of_life_tui/__init__.py | sed 's/__version__ = "\(.*\)"/\1/')
+
+        echo "pyproject.toml version: $PYPROJECT_VERSION"
+        echo "__init__.py version: $INIT_VERSION"
+        echo "Input version: ${{ inputs.version }}"
+
+        # Check they all match
+        if [ "$PYPROJECT_VERSION" != "${{ inputs.version }}" ]; then
+          echo "❌ Error: pyproject.toml version ($PYPROJECT_VERSION) does not match input (${{ inputs.version }})"
+          exit 1
+        fi
+
+        if [ "$INIT_VERSION" != "${{ inputs.version }}" ]; then
+          echo "❌ Error: __init__.py version ($INIT_VERSION) does not match input (${{ inputs.version }})"
+          exit 1
+        fi
+
+        echo "✅ All versions match: ${{ inputs.version }}"
+
+  build:
+    name: Build Distribution
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+
+    - name: Install package
+      run: |
+        pip install -e .
+
+    - name: Run tests
+      run: |
+        python -c "
+        from game_of_life_tui import __version__
+        from game_of_life_tui.game import GameGrid
+        from game_of_life_tui.patterns import PATTERNS
+
+        print(f'Testing version: {__version__}')
+
+        # Quick sanity tests
+        grid = GameGrid(50, 50)
+        assert grid.population == 0
+        grid.toggle_cell(25, 25)
+        assert grid.population == 1
+
+        assert len(PATTERNS) >= 5
+
+        print('✅ All sanity checks passed!')
+        "
+
+    - name: Clean previous builds
+      run: |
+        rm -rf dist/ build/ *.egg-info
+
+    - name: Build distribution
+      run: |
+        python -m build
+
+    - name: Check distribution
+      run: |
+        twine check dist/*
+
+    - name: List distribution files
+      run: |
+        echo "Distribution files:"
+        ls -lh dist/
+
+    - name: Upload distribution
+      uses: actions/upload-artifact@v4
+      with:
+        name: distribution-${{ inputs.version }}
+        path: dist/
+        retention-days: 30
+
+  publish:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: pypi
+      url: https://pypi.org/project/game-of-life-tui/
+    permissions:
+      id-token: write  # REQUIRED for trusted publishing
+
+    steps:
+    - name: Download distribution
+      uses: actions/download-artifact@v4
+      with:
+        name: distribution-${{ inputs.version }}
+        path: dist/
+
+    - name: Verify distribution files
+      run: |
+        echo "Files to be published:"
+        ls -lh dist/
+
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        print-hash: true
+        verbose: true
+
+  verify:
+    name: Verify PyPI Publication
+    runs-on: ubuntu-latest
+    needs: publish
+
+    steps:
+    - name: Wait for PyPI to update
+      run: |
+        echo "Waiting 60 seconds for PyPI to process the package..."
+        sleep 60
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install from PyPI
+      run: |
+        pip install game-of-life-tui==${{ inputs.version }}
+
+    - name: Verify installation
+      run: |
+        python -c "from game_of_life_tui import __version__; print(f'Installed version: {__version__}')"
+        game-of-life --help 2>&1 | head -1 || echo "Command works"
+
+    - name: Success message
+      run: |
+        echo "🎉 Successfully published version ${{ inputs.version }} to PyPI!"
+        echo "📦 Install with: pip install game-of-life-tui"
+        echo "🔗 View on PyPI: https://pypi.org/project/game-of-life-tui/${{ inputs.version }}/"

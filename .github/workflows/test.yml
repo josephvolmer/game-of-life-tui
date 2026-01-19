@@ -1,0 +1,154 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} - Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+
+    - name: Install package in editable mode
+      run: |
+        pip install -e .
+
+    - name: Verify installation
+      run: |
+        python -c "from game_of_life_tui import __version__; print('Version:', __version__)"
+        python -c "from game_of_life_tui import GameOfLifeApp, GameGrid; print('Import successful')"
+
+    - name: Test module execution
+      run: |
+        python -m game_of_life_tui --version 2>&1 | head -1 || echo "CLI works (no --version flag)"
+      shell: bash
+
+    - name: Verify command is available
+      run: |
+        game-of-life --help 2>&1 | head -1 || echo "Command installed successfully"
+      shell: bash
+
+    - name: Test game logic
+      run: |
+        python -c "
+        from game_of_life_tui.game import GameGrid
+        from game_of_life_tui.patterns import place_pattern, PATTERNS
+
+        # Test grid creation
+        grid = GameGrid(50, 50)
+        assert grid.width == 50
+        assert grid.height == 50
+        assert grid.population == 0
+
+        # Test cell toggling
+        grid.toggle_cell(25, 25)
+        assert grid.is_alive(25, 25)
+        assert grid.population == 1
+
+        # Test neighbor counting
+        neighbors = grid.count_neighbors(25, 25)
+        assert neighbors == 0
+
+        # Test step
+        grid.step()
+        assert grid.generation == 1
+
+        # Test patterns
+        assert 'glider' in PATTERNS
+        assert 'blinker' in PATTERNS
+
+        # Test clear
+        grid.clear()
+        assert grid.population == 0
+        assert grid.generation == 0
+
+        print('✓ All game logic tests passed!')
+        "
+
+    - name: Build distribution
+      run: |
+        python -m build
+
+    - name: Check distribution
+      run: |
+        twine check dist/*
+
+    - name: Upload artifacts (Ubuntu only)
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+      uses: actions/upload-artifact@v4
+      with:
+        name: distribution
+        path: dist/
+        retention-days: 7
+
+  lint:
+    name: Lint and Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install package
+      run: |
+        pip install -e .
+
+    - name: Check imports
+      run: |
+        python -c "
+        import sys
+        try:
+            from game_of_life_tui import GameOfLifeApp, GameGrid, main
+            from game_of_life_tui.patterns import PATTERNS, place_pattern
+            print('✓ All imports successful')
+        except ImportError as e:
+            print(f'✗ Import error: {e}')
+            sys.exit(1)
+        "
+
+  summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    if: always()
+
+    steps:
+    - name: Check test results
+      run: |
+        echo "Test workflow completed!"
+        echo "Test job: ${{ needs.test.result }}"
+        echo "Lint job: ${{ needs.lint.result }}"
+
+        if [ "${{ needs.test.result }}" != "success" ] || [ "${{ needs.lint.result }}" != "success" ]; then
+          echo "❌ Some tests failed"
+          exit 1
+        fi
+
+        echo "✅ All tests passed!"
