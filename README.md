@@ -10,13 +10,11 @@ A beautiful, interactive terminal-based implementation of [Conway's Game of Life
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![PyPI](https://img.shields.io/badge/pypi-game--of--life--tui-blue.svg)
 
-[Installation](#-installation) • [Features](#-features) • [Controls](#-controls) • [Documentation](#-documentation)
-
 </div>
 
 ---
 
-## 📸 Screenshot
+## Screenshot
 
 <div align="center">
 
@@ -28,20 +26,19 @@ A beautiful, interactive terminal-based implementation of [Conway's Game of Life
 
 ---
 
-## ✨ Features
+## Features
 
-- 🌈 **Vibrant Rainbow Colors** - Cells cycle through cyan→green→yellow→magenta→blue as they age, making pattern dynamics instantly visible
-- 🎨 **Theme Support** - Switch between multiple beautiful themes (`Ctrl+\`) while keeping meaningful cell colors
-- ⚡ **Zero System Dependencies** - 100% pure Python, installs with a single `pip` command
-- 🎮 **Interactive TUI** - Beautiful terminal interface optimized for standard 80×24 screens
-- 📦 **Preset Patterns** - Spawn classic patterns like gliders, blinkers, pulsars with a single keypress
-- 🎯 **Manual Editing** - Pause and draw your own patterns with intuitive arrow key navigation
-- 💾 **Save/Load** - Persist your creations to JSON files for later experimentation
-- 🔄 **Adjustable Speed** - Control simulation speed from 100-1000ms per generation
-- 🖥️ **Cross-Platform** - Works flawlessly on macOS, Linux, and Windows terminals
-- 🧬 **Scientific Insight** - Color-coded cell ages reveal pattern stability and dynamics
+- **Vibrant Rainbow Colors** - Cells cycle through cyan→green→yellow→magenta→blue as they age, making pattern dynamics instantly visible
+- **Theme Support** - Switch between multiple themes (Ctrl+\) while keeping meaningful cell colors
+- **Zero System Dependencies** - 100% pure Python, installs with a single pip command
+- **Interactive TUI** - Beautiful terminal interface optimized for standard 80×24 screens
+- **Preset Patterns** - Spawn classic patterns like gliders, blinkers, pulsars with a single keypress
+- **Manual Editing** - Pause and draw your own patterns with intuitive arrow key navigation
+- **Save/Load** - Persist your creations to JSON files
+- **Adjustable Speed** - Control simulation speed from 100-1000ms per generation
+- **Cross-Platform** - Works on macOS, Linux, and Windows terminals
 
-## 🚀 Installation
+## Installation
 
 ### From PyPI (Recommended)
 
@@ -57,7 +54,7 @@ cd game-of-life-tui
 pip install -e .
 ```
 
-## 🎯 Quick Start
+## Quick Start
 
 After installation, launch the game:
 
@@ -71,15 +68,7 @@ Or alternatively:
 python -m game_of_life_tui
 ```
 
-### First Time? Try This!
-
-1. 🎲 Press `R` to generate random cells
-2. ▶️ Press `P` to start the simulation
-3. ⚡ Press `+` or `-` to adjust speed
-4. 🎨 Press `Ctrl+\` to try different themes
-5. 🎮 Press `P` to pause and draw your own patterns!
-
-## 🎮 Controls
+## Controls
 
 ### Simulation Control
 | Key | Action |
@@ -122,23 +111,23 @@ python -m game_of_life_tui
 | `Ctrl+\` | Open theme picker (try nord, monokai, gruvbox!) |
 | `Q` or `Esc` | Quit application |
 
-## 🌈 Cell Colors - Meaningful Rainbow
+## Cell Colors
 
-One of the most unique features of this implementation is the **meaningful color progression** that reveals cell dynamics:
+One of the most unique features is the **meaningful color progression** that reveals cell dynamics:
 
 ```
 █ = Live cell (color-coded by age)
 · = Dead cell
 
 Cell Age Colors (Rainbow Progression):
-🐣 Bright Cyan (Age 1)    → Newborn cells, just born from 3 neighbors
-🌱 Bright Green (Age 2)   → Young cells, survived first generation
-⭐ Bright Yellow (Age 3)  → Mature cells, well-established
-🔮 Bright Magenta (Age 4) → Old cells, long-lived survivors
-💎 Bright Blue (Age 5+)   → Ancient survivors, the rarest cells
+Bright Cyan (Age 1)    → Newborn cells, just born from 3 neighbors
+Bright Green (Age 2)   → Young cells, survived first generation
+Bright Yellow (Age 3)  → Mature cells, well-established
+Bright Magenta (Age 4) → Old cells, long-lived survivors
+Bright Blue (Age 5+)   → Ancient survivors, the rarest cells
 
 Cursor (when paused):
-🎯 Red background with white text
+Red background with white text
 ```
 
 ### Why Rainbow Colors?
@@ -151,22 +140,7 @@ The color progression isn't just pretty—it's **scientifically meaningful**:
 - **See Birth Rate**: Lots of cyan means high activity
 - **Understand Dynamics**: Color distribution shows pattern evolution
 
-See [COLOR_GUIDE.md](COLOR_GUIDE.md) for detailed insights!
-
-## 🎨 Theme Support
-
-Press `Ctrl+\` while running to switch between beautiful themes:
-
-- **textual-dark** (default) - Best contrast, easy on eyes
-- **textual-light** - For bright environments
-- **nord** - Soft, pleasant colors
-- **monokai** - Vibrant, high contrast
-- **gruvbox** - Warm, retro feel
-- And many more!
-
-The background adapts to your theme, while cell colors stay vibrant and meaningful for consistent pattern recognition.
-
-## 📖 Game Rules
+## Game Rules
 
 Conway's Game of Life is a zero-player game following these simple rules:
 
@@ -176,49 +150,7 @@ Conway's Game of Life is a zero-player game following these simple rules:
 
 The grid is **toroidal** (wraps around edges), creating a seamless, infinite-like surface.
 
-## 💡 Examples & Tips
-
-### Creating a Glider
-```
-1. Run game-of-life
-2. Press 1 to place a glider at the cursor
-3. Press P to watch it travel diagonally
-4. Notice the colorful trail it leaves!
-```
-
-### Drawing Custom Patterns
-```
-1. Press P to pause
-2. Use arrow keys to navigate
-3. Press Space to toggle cells on/off
-4. Press P again to see your creation evolve
-5. Watch the colors change as cells age
-```
-
-### Experimenting with Randomness
-```
-1. Press R to randomize
-2. Press P to start
-3. Watch complex patterns emerge from chaos
-4. Press + to speed up time
-5. Look for stable blue/magenta structures
-```
-
-### Pro Tips
-- 🎯 **Finding Patterns**: Look for recurring color cycles to spot oscillators
-- 🚀 **Speed Control**: Use `+`/`-` to find your perfect viewing speed
-- 💾 **Save Discoveries**: Press `Ctrl+S` to save interesting patterns
-- 🎨 **Theme Matching**: Try different themes to match your terminal setup
-- 🔬 **Scientific Mode**: Watch color distributions to understand population dynamics
-
-## 📚 Documentation
-
-- **[PRD.md](PRD.md)** - Complete product requirements and specifications
-- **[COLOR_GUIDE.md](COLOR_GUIDE.md)** - Deep dive into color meanings and visual insights
-- **[QUICKSTART.md](QUICKSTART.md)** - Fast-track guide to get playing
-- **[CHANGELOG.md](CHANGELOG.md)** - Version history and improvements
-
-## 🛠️ Technical Details
+## Technical Details
 
 - **Grid Size**: 50×50 cells
 - **Topology**: Toroidal (wrapping edges)
@@ -228,89 +160,24 @@ The grid is **toroidal** (wraps around edges), creating a seamless, infinite-lik
 - **Color Support**: Standard 16-color ANSI (works everywhere)
 - **Save Format**: JSON with live cell coordinates
 
-## 🧪 Development
-
-### Setup
-
-```bash
-git clone https://github.com/josephvolmer/game-of-life-tui.git
-cd game-of-life-tui
-pip install -e .
-```
-
-### Run
-
-```bash
-game-of-life
-```
-
-### Project Structure
-
-```
-game-of-lif-tui/
-├── README.md              # This file (GitHub)
-├── README_PYPI.md        # PyPI package description
-├── PRD.md                # Product requirements
-├── CHANGELOG.md          # Version history
-├── COLOR_GUIDE.md        # Color system documentation
-├── LICENSE               # MIT license
-├── pyproject.toml        # Package configuration
-├── assets/
-│   └── screenshot.png    # Demo screenshot
-└── src/
-    └── game_of_life_tui/
-        ├── __init__.py   # Package initialization
-        ├── __main__.py   # CLI entry point
-        ├── app.py        # Textual application
-        ├── game.py       # Game logic
-        └── patterns.py   # Preset patterns
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Here are some ideas:
-
-- 🎨 Add more preset patterns
-- 🎮 Create pattern collections/libraries
-- 📊 Add statistics and analytics
-- 🎯 Implement pattern detection
-- 🌐 Add more themes
-- 📖 Improve documentation
-- 🐛 Fix bugs
-
-Please open an issue or submit a pull request!
-
-## 📋 Requirements
+## Requirements
 
 - Python 3.8 or higher
 - textual >= 0.47.0 (automatically installed)
 
-No system dependencies required—works out of the box!
-
-## 📄 License
+## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- [John Conway](https://en.wikipedia.org/wiki/John_Horton_Conway) for inventing the Game of Life
-- [Textual](https://textual.textualize.io/) for the amazing TUI framework
-- The Python community for excellent tooling and libraries
-
-## 🔗 Links
+## Links
 
 - **PyPI**: https://pypi.org/project/game-of-life-tui/
 - **Issues**: https://github.com/josephvolmer/game-of-life-tui/issues
-- **Discussions**: https://github.com/josephvolmer/game-of-life-tui/discussions
 
 ---
 
 <div align="center">
 
-**Enjoy exploring cellular automata!** 🎮✨
-
-Made with ❤️ using Python and Textual
-
-[⬆ Back to Top](#-game-of-life-tui)
+Made with Python and Textual
 
 </div>

@@ -7,13 +7,13 @@ A beautiful, interactive terminal-based implementation of Conway's Game of Life 
 
 ## Features
 
-🌈 **Vibrant Rainbow Colors** - Cells cycle through cyan→green→yellow→magenta→blue as they age
-⚡ **Zero Dependencies** - 100% pure Python, installs with a single pip command
-🎮 **Interactive TUI** - Beautiful terminal interface optimized for 80x24 screens
-🎨 **Theme Support** - Switch between multiple themes with `Ctrl+\`
-📦 **Preset Patterns** - Spawn gliders, blinkers, and other classic patterns (keys 1-5)
-💾 **Save/Load** - Persist your creations to JSON files
-🖥️ **Cross-Platform** - Works on macOS, Linux, and Windows
+- **Vibrant Rainbow Colors** - Cells cycle through cyan→green→yellow→magenta→blue as they age
+- **Zero Dependencies** - 100% pure Python, installs with a single pip command
+- **Interactive TUI** - Beautiful terminal interface optimized for 80x24 screens
+- **Theme Support** - Switch between multiple themes with Ctrl+\
+- **Preset Patterns** - Spawn gliders, blinkers, and other classic patterns (keys 1-5)
+- **Save/Load** - Persist your creations to JSON files
+- **Cross-Platform** - Works on macOS, Linux, and Windows
 
 ## Installation
 
@@ -55,11 +55,11 @@ game-of-life
 
 ## Cell Colors (Meaningful Rainbow)
 
-- 🐣 **Cyan** (Age 1) - Newborn cells
-- 🌱 **Green** (Age 2) - Young cells
-- ⭐ **Yellow** (Age 3) - Mature cells
-- 🔮 **Magenta** (Age 4) - Old cells
-- 💎 **Blue** (Age 5+) - Ancient survivors
+- **Cyan** (Age 1) - Newborn cells
+- **Green** (Age 2) - Young cells
+- **Yellow** (Age 3) - Mature cells
+- **Magenta** (Age 4) - Old cells
+- **Blue** (Age 5+) - Ancient survivors
 
 Watch as patterns evolve and cells age through the rainbow spectrum!
 
@@ -108,7 +108,6 @@ No system dependencies required!
 
 - **GitHub**: https://github.com/josephvolmer/game-of-life-tui
 - **Issues**: https://github.com/josephvolmer/game-of-life-tui/issues
-- **Documentation**: See GitHub repository for detailed guides
 
 ## License
 
@@ -116,4 +115,4 @@ MIT License - see LICENSE file for details.
 
 ---
 
-Enjoy exploring cellular automata! 🎮✨
+Made with Python and Textual
